@@ -29,8 +29,8 @@ public class Main {
         }
 
         var solver = new HardModeSolver(allWords);
-        var firstGuess = solver.bestGuesses().findFirst().orElse("<void>");
-        System.out.println("hint: try " + firstGuess);
+        // var firstGuess = solver.bestGuesses().findFirst().orElse("<void>");
+        // System.out.println("hint: try " + firstGuess);
         while (true) {
             var guess = inputGuess();
             if (guess.result().equals("ggggg")) {

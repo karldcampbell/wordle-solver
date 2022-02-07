@@ -64,18 +64,18 @@ public class HardModeSolver {
     }
 
     public Stream<String> bestGuesses() {
-        TreeMap<Long, String> scores = new TreeMap<>();
-        validWords.parallelStream().forEach(guess -> {
-            long totalScore = 0;
-            for (String target : validWords) {
-                totalScore += calcScore(guess, target);
-            }
-            synchronized (scores) {
-                scores.put(totalScore, guess);
-            }
-        });
+        var scores = validWords
+                .parallelStream().map(guess -> {
+                        long totalScore = 0;
+                        for (String target : validWords) {
+                            totalScore += calcScore(guess, target);
+                        }
+                        return new AbstractMap.SimpleImmutableEntry<>(totalScore, guess);
+                    })
+                .collect(Collectors.toList());
+        scores.sort((a, b) -> b.getKey().compareTo(a.getKey()));
 
-        return scores.descendingMap().values().stream();
+       return scores.stream().map(AbstractMap.SimpleImmutableEntry::getValue);
     }
 
     private static int calcScore(String guess, String target) {
