@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -28,7 +27,10 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        var solver = new HardModeSolver(allWords);
+        var wordLength = allWords.stream().findFirst().orElseThrow().length();
+
+        var solver = new Solver(allWords, wordLength);
+        GuessResult.setLength(wordLength);
         // var firstGuess = solver.bestGuesses().findFirst().orElse("<void>");
         // System.out.println("hint: try " + firstGuess);
         while (true) {

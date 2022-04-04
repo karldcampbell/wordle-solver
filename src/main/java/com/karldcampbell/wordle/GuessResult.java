@@ -1,11 +1,9 @@
 package com.karldcampbell.wordle;
 
-import java.util.Arrays;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 public record GuessResult(String guess, String result) {
-    public static final int WORD_LENGTH = 5;
+    private static int WORD_LENGTH = 5;
 
     public GuessResult(String guess, String result) {
         if (guess == null || guess.length() != WORD_LENGTH) {
@@ -22,6 +20,11 @@ public record GuessResult(String guess, String result) {
     }
 
     private static final Set<Character> validChars = Set.of('.', 'y', 'g');
+
+    public static void setLength(int wordLength) {
+        WORD_LENGTH = wordLength;
+    }
+
     private boolean containsInvalidChars(String result) {
         for (Character c : result.toCharArray()) {
             if (!validChars.contains(c)) {
